@@ -1,0 +1,57 @@
+name: Veriyi güncelle
+
+on:
+  schedule:
+    - cron: "30 4 * * *"      # her gün 04:30 UTC = 07:30 Türkiye saati
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Tüm veriyi baştan çek (yavaş, genelde gerekmez)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: veri-guncelle
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Paketleri kur
+        run: pip install -r requirements.txt
+
+      - name: Veriyi çek ve siteyi güncelle
+        env:
+          EPTR_USERNAME: ${{ secrets.EPTR_USERNAME }}
+          EPTR_PASSWORD: ${{ secrets.EPTR_PASSWORD }}
+          FULL: ${{ inputs.full }}
+        run: |
+          if [ "$FULL" = "true" ]; then
+            python update_data.py --full
+          else
+            python update_data.py
+          fi
+
+      - name: Değişiklikleri kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs data
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok."
+          else
+            git commit -m "Veri güncellendi"
+            git push
+          fi
