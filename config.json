@@ -1,8 +1,8 @@
 {
-  "kur_onaylandi": false,
+  "kur_onaylandi": true,
   "kur_yillik": {
-    "2025": 41.0,
-    "2026": 43.0
+    "2025": 42.3,
+    "2026": 45,8
   },
   "kur_aylik": {},
   "yekdem": {
