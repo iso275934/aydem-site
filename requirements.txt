@@ -1,0 +1,3 @@
+eptr2[allextras]
+pandas
+openpyxl

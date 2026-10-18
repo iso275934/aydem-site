@@ -1,0 +1,19 @@
+{
+  "kur_onaylandi": false,
+  "kur_yillik": {
+    "2025": 41.0,
+    "2026": 43.0
+  },
+  "kur_aylik": {},
+  "yekdem": {
+    "AKINCI HES": 6.30,
+    "SÖKE RES": 4.95,
+    "YALOVA RES": 4.95
+  },
+  "santraller": [
+    "AKINCI HES", "UŞAK RES", "GÖKTAŞ 2 HES", "KOYULHİSAR HES", "GÖKTAŞ 1 HES",
+    "SÖKE RES", "YALOVA RES", "ÇIRAKDAMI HES", "TOROS HES", "DERELİ HES",
+    "AKSU HES", "DALAMAN HES", "MENTAŞ HES", "KEMER HES", "GÖKYAR HES",
+    "ADIGÜZEL HES", "BEREKET 1-2 HES", "FESLEK HES"
+  ]
+}
