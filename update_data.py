@@ -42,6 +42,8 @@ DOCS = ROOT / "docs"
 DATA_JSON = DOCS / "data.json"
 XLSX_PATH = DOCS / "aydem_gunluk_karsilastirma.xlsx"
 
+GAP_JSON = ROOT / "data" / "eksik.json"   # çekilemeyen en eski gün (bir sonraki çalışma buradan devam eder)
+ABORT_AFTER = 5         # üst üste bu kadar bağlantı hatasında EPİAŞ'a erişilemiyor say, dur
 OVERLAP_DAYS = 3        # her çalışmada son kaç gün yeniden çekilsin (EPİAŞ düzeltmeleri için)
 RECENT_CHECK_DAYS = 45  # eksik santral kontrolü sadece son kaç gün için yapılsın
 TZ = ZoneInfo("Europe/Istanbul")
@@ -95,33 +97,57 @@ def incomplete_days(raw: pd.DataFrame, start: date, end: date, n_plants: int) ->
 
 
 def fetch_raw(eptr, plants: pd.DataFrame, start: date, end: date):
-    """start..end arası günlük ham veri: üretim (MWh) ve PTF'li ciro (TL). Aylık parçalarla çeker."""
+    """start..end arası günlük ham veri: üretim (MWh) ve PTF'li ciro (TL). Aylık parçalarla çeker.
+
+    Üst üste ABORT_AFTER bağlantı hatası olursa durur (EPİAŞ'a erişilemiyor demektir); o ana kadar
+    çekilen veri geri döner, çekilemeyen en eski gün `gap_start` olarak bildirilir.
+    Döner: (veri, uyarılar, gap_start, durdu_mu)
+    """
     id_col = core.get_pp_id_column(plants)
     name_col = "name" if "name" in plants.columns else plants.columns[0]
     chunks = core.month_chunks(start, end)
 
     rows, failures = [], []
+    state = {"gap": None, "consec": 0}
+
+    def mark_gap(d):
+        state["gap"] = d if state["gap"] is None else min(state["gap"], d)
+
+    aborted = False
     for ci, (cs, ce) in enumerate(chunks, 1):
         s, e = cs.isoformat(), ce.isoformat()
         print(f"\n=== [{ci}/{len(chunks)}] {s} -> {e} ===", flush=True)
         try:
             ptf = core.fetch_ptf(eptr, s, e)
+            state["consec"] = 0
         except Exception as exc:  # noqa: BLE001
-            print(f"  HATA: PTF çekilemedi ({exc})")
+            print(f"  HATA: PTF çekilemedi ({str(exc)[:160]})")
             failures.append(f"PTF {s} → {e}")
+            mark_gap(cs)
+            state["consec"] += 1
             ptf = None
+            if state["consec"] >= ABORT_AFTER:
+                aborted = True
+                break
 
         for _, p in plants.iterrows():
             pname, pp_id = p[name_col], p[id_col]
             print(f"  -> {pname}", flush=True)
             try:
                 prod = core.fetch_hourly_production(eptr, pp_id, s, e)
+                state["consec"] = 0
             except Exception as exc:  # noqa: BLE001
-                print(f"     HATA: {exc}")
+                print(f"     HATA: {str(exc)[:160]}")
                 failures.append(f"{pname} {s} → {e}")
+                mark_gap(cs)
+                state["consec"] += 1
+                if state["consec"] >= ABORT_AFTER:
+                    aborted = True
+                    break
                 continue
             if prod.empty:
                 failures.append(f"{pname} {s} → {e} (veri boş)")
+                mark_gap(cs)
                 continue
 
             if ptf is not None:
@@ -135,13 +161,40 @@ def fetch_raw(eptr, plants: pd.DataFrame, start: date, end: date):
             daily = m.groupby("tarih", as_index=False)[["uretim_mwh", "ciro_ptf_tl"]].sum(min_count=1)
             daily["santral"] = pname
             rows.append(daily)
+        if aborted:
+            break
+
+    if aborted:
+        print(
+            f"\nÜst üste {ABORT_AFTER} bağlantı hatası: EPİAŞ'a şu an erişilemiyor. "
+            "Şimdiye kadar çekilen veri kaydedilecek, bir sonraki çalışma kaldığı yerden devam eder."
+        )
 
     if not rows:
-        return pd.DataFrame(columns=["tarih", "santral", "uretim_mwh", "ciro_ptf_tl"]), failures
+        empty = pd.DataFrame(columns=["tarih", "santral", "uretim_mwh", "ciro_ptf_tl"])
+        return empty, failures, state["gap"], aborted
 
     new = pd.concat(rows, ignore_index=True)
     new = new.groupby(["tarih", "santral"], as_index=False)[["uretim_mwh", "ciro_ptf_tl"]].sum(min_count=1)
-    return new, failures
+    return new, failures, state["gap"], aborted
+
+
+def load_gap():
+    if GAP_JSON.exists():
+        try:
+            return date.fromisoformat(json.loads(GAP_JSON.read_text(encoding="utf-8"))["baslangic"])
+        except Exception:  # noqa: BLE001
+            return None
+    return None
+
+
+def save_gap(gap_start):
+    if gap_start is None:
+        if GAP_JSON.exists():
+            GAP_JSON.unlink()
+        return
+    GAP_JSON.parent.mkdir(parents=True, exist_ok=True)
+    GAP_JSON.write_text(json.dumps({"baslangic": gap_start.isoformat()}), encoding="utf-8")
 
 
 # ----------------------------------------------------------------------
@@ -304,11 +357,12 @@ def main():
     else:
         bad = incomplete_days(raw, start_day, end_day, len(plants))
         recent = end_day - timedelta(days=OVERLAP_DAYS - 1)
-        fetch_from = min([recent] + [d.date() for d in bad])
-        fetch_from = max(fetch_from, start_day)
+        prev_gap = load_gap()
+        candidates = [recent] + [d.date() for d in bad] + ([prev_gap] if prev_gap else [])
+        fetch_from = max(min(candidates), start_day)
         print(f"\nArtımlı güncelleme: {fetch_from} -> {end_day} ({len(bad)} eksik gün bulundu)")
 
-    new, failures = fetch_raw(eptr, plants, fetch_from, end_day)
+    new, failures, gap_start, aborted = fetch_raw(eptr, plants, fetch_from, end_day)
     if new.empty:
         sys.exit("HATA: EPİAŞ'tan hiç veri alınamadı. Dosyalara dokunulmadı.")
 
@@ -322,6 +376,12 @@ def main():
     out["tarih"] = out["tarih"].dt.strftime("%Y-%m-%d")
     out.to_csv(RAW_CSV, index=False, encoding="utf-8")
     print(f"\nHam veri kaydedildi: {RAW_CSV} ({len(raw)} satır)")
+    save_gap(gap_start)
+    if aborted:
+        sys.exit(
+            "EPİAŞ'a erişim sorunu nedeniyle durdum. Çekilen veri kaydedildi; "
+            "programı tekrar çalıştırınca kaldığı yerden devam eder."
+        )
 
     detail = build_detail(raw)
     window = core.comparison_window(detail, end_day)
