@@ -1,5 +1,5 @@
 {
- "olusturma": "2026-10-19T11:07:56+03:00",
+ "olusturma": "2026-10-19T13:08:47+03:00",
  "yil": 2026,
  "onceki_yil": 2025,
  "baslangic": "2026-10-01",
@@ -204,9 +204,9 @@
   {
    "donem": "01.10.2025 → 18.10.2026",
    "gun": 383,
-   "ort_uretim_mwh": 6357.061305483027,
+   "ort_uretim_mwh": 6357.061305483028,
    "ort_ciro_tl": 14660873.576982506,
-   "oran_uretim": 0.8936304151154769,
+   "oran_uretim": 0.8936304151154768,
    "oran_ciro": 1.0343427919744144,
    "referans": false
   },
@@ -322,8 +322,8 @@
    "santral": "ERZURUM AKSU HES-40W0000000056548",
    "mekanizma": "PTF",
    "uretim_onceki": 2192.02,
-   "uretim_simdiki": 4075.01,
-   "uretim_degisim": 0.8590204468937328,
+   "uretim_simdiki": 4075.0099999999998,
+   "uretim_degisim": 0.8590204468937326,
    "ciro_onceki": 5921172.143,
    "ciro_simdiki": 10993354.6673,
    "ciro_degisim": 0.8566179806639005
@@ -381,9 +381,9 @@
   {
    "santral": "AKINCI HES KAYSERİ-40W000000012823K",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 92.46,
+   "uretim_onceki": 92.46000000000001,
    "uretim_simdiki": 1187.95,
-   "uretim_degisim": 11.848258706467663,
+   "uretim_degisim": 11.84825870646766,
    "ciro_onceki": 246396.65399999998,
    "ciro_simdiki": 3427710.9299999997,
    "ciro_degisim": 12.911353398492173
