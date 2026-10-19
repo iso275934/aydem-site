@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aydem · Günlük Üretim ve Ciro</title>
+<style>
+  :root {
+    --bg: #f3f5f9; --card: #ffffff; --text: #16202e; --muted: #5d6b7e; --line: #e2e7ee;
+    --prev: #8a94a3; --curr: #2b7de9; --prod: #2e9d4f; --rev: #f08a00;
+    --pos: #1b6e33; --pos-bg: #dcf3e2; --neg: #b3261e; --neg-bg: #fbe3e1;
+    --warn: #7a4f00; --warn-bg: #fff3d1; --head: #1f3a5f; --head-text: #ffffff;
+    --row-alt: #f6f8fb; --hl: #dfeaff; --badge-bg: #e8eef8; --badge: #29508a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1520; --card: #172030; --text: #e8edf5; --muted: #9aa8bd; --line: #28344a;
+      --prev: #8d97a6; --curr: #5ea3ff; --prod: #62c47f; --rev: #ffab2e;
+      --pos: #7fdc99; --pos-bg: #17392a; --neg: #ff9a92; --neg-bg: #44211f;
+      --warn: #f1c266; --warn-bg: #3a3014; --head: #2b4a78; --head-text: #ffffff;
+      --row-alt: #1b2638; --hl: #1f3558; --badge-bg: #22324d; --badge: #a9c8ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 56px; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--muted); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 6px; font-size: .88rem; color: var(--muted); }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px; margin-top: 16px;
+  }
+  .card h2 { margin: 0 0 2px; font-size: 1.05rem; }
+  .card .sub { margin: 0 0 12px; color: var(--muted); font-size: .88rem; }
+  .banner { border-radius: 12px; padding: 12px 14px; margin-top: 16px; font-size: .92rem; }
+  .banner.warn { background: var(--warn-bg); color: var(--warn); }
+  .banner.error { background: var(--neg-bg); color: var(--neg); }
+  .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .kpi { margin-top: 16px; }
+  .kpi .label { color: var(--muted); font-size: .88rem; }
+  .kpi .big { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0; }
+  .kpi .big small { font-size: .95rem; font-weight: 500; color: var(--muted); }
+  .kpi .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: .92rem; color: var(--muted); }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: .9rem; }
+  .pill.pos { background: var(--pos-bg); color: var(--pos); }
+  .pill.neg { background: var(--neg-bg); color: var(--neg); }
+  .chart-box { position: relative; height: 320px; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; min-width: 640px; }
+  th, td { padding: 9px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { background: var(--head); color: var(--head-text); font-weight: 600; border-bottom: none; white-space: normal; text-align: center; }
+  thead th:first-child { text-align: left; border-top-left-radius: 8px; }
+  thead th:last-child { border-top-right-radius: 8px; }
+  tbody tr:nth-child(even) td { background: var(--row-alt); }
+  tbody tr.hl td { background: var(--hl); font-weight: 700; }
+  tbody tr.total td { font-weight: 700; border-top: 2px solid var(--line); }
+  td.pos { background: var(--pos-bg) !important; color: var(--pos); font-weight: 700; text-align: center; }
+  td.neg { background: var(--neg-bg) !important; color: var(--neg); font-weight: 700; text-align: center; }
+  td.c { text-align: center; }
+  td.na { text-align: center; color: var(--muted); }
+  td .s { display: block; font-weight: 500; font-size: .8rem; opacity: .85; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: .75rem; font-weight: 600; background: var(--badge-bg); color: var(--badge); }
+  .note { margin-top: 10px; color: var(--muted); font-size: .82rem; }
+  footer { margin-top: 24px; color: var(--muted); font-size: .84rem; }
+  footer a { color: var(--curr); }
+  footer ul { margin: 6px 0 0; padding-left: 18px; }
+  @media (max-width: 640px) {
+    .kpis { grid-template-columns: 1fr; gap: 0; }
+    header h1 { font-size: 1.3rem; }
+    .kpi .big { font-size: 1.7rem; }
+    .chart-box { height: 260px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Aydem · Günlük Üretim ve Ciro</h1>
+    <p id="period">Yükleniyor…</p>
+    <div class="meta"><span id="updated"></span><span id="excel"></span></div>
+  </header>
+
+  <div id="banners"></div>
+  <div id="app" hidden>
+    <div class="kpis">
+      <div class="card kpi" id="kpi-uretim"></div>
+      <div class="card kpi" id="kpi-ciro"></div>
+    </div>
+
+    <div class="card">
+      <h2>Günlük toplam üretim</h2>
+      <p class="sub" id="sub-uretim"></p>
+      <div class="chart-box"><canvas id="c-uretim"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>Günlük ciro</h2>
+      <p class="sub">YEKDEM'deki santraller YEKDEM fiyatıyla, diğerleri saatlik PTF ile hesaplanır.</p>
+      <div class="chart-box"><canvas id="c-ciro"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2 id="t-degisim"></h2>
+      <p class="sub">Her gün için, bu yılın değeri geçen yılın aynı gününe göre yüzde kaç farklı.</p>
+      <div class="chart-box"><canvas id="c-degisim"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>Ortalama günlük üretim ve ciro</h2>
+      <p class="sub" id="sub-ort"></p>
+      <div class="scroll"><table id="t-ort"></table></div>
+      <p class="note">Ortalamalar, günlük toplamların ortalamasıdır. Yeşil: bu yılın Ekim ortalaması o dönemden yüksek, kırmızı: düşük.</p>
+    </div>
+
+    <div class="card">
+      <h2>Santral bazında</h2>
+      <p class="sub" id="sub-santral"></p>
+      <div class="scroll"><table id="t-santral"></table></div>
+    </div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js"></script>
+<script>
+(function () {
+  "use strict";
+  var AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+
+  function nf(v, d) {
+    if (v === null || v === undefined || isNaN(v)) return "—";
+    d = d || 0;
+    return Number(v).toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function mln(v, d) { return v === null || v === undefined ? "—" : nf(v / 1e6, d === undefined ? 2 : d); }
+  function pctOf(r) { return r === null || r === undefined ? "—" : "%" + nf(r * 100, 1); }
+  function chg(c) {
+    if (c === null || c === undefined) return "—";
+    return (c >= 0 ? "+" : "−") + nf(Math.abs(c) * 100, 1) + "%";
+  }
+  function cls(r) { return r === null || r === undefined ? "na" : (r >= 1 ? "pos" : "neg"); }
+  function el(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function dayMonth(iso) { var p = iso.split("-"); return Number(p[2]) + " " + AYLAR[Number(p[1]) - 1]; }
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function banner(kind, html) {
+    var d = document.createElement("div");
+    d.className = "banner " + kind;
+    d.innerHTML = html;
+    el("banners").appendChild(d);
+  }
+
+  function kpi(id, title, unitHtml, prevLabel, currLabel, o, fmt) {
+    var ch = o.oran === null ? null : o.oran - 1;
+    var pill = ch === null ? "" : '<span class="pill ' + (ch >= 0 ? "pos" : "neg") + '">' + chg(ch) + "</span>";
+    el(id).innerHTML =
+      '<div class="label">' + title + "</div>" +
+      '<div class="big">' + fmt(o.simdiki) + " <small>" + unitHtml + "</small></div>" +
+      '<div class="row">' + pill +
+      "<span>" + currLabel + ", " + prevLabel + "'in <b>" + pctOf(o.oran) + "</b>'i</span></div>" +
+      '<div class="row" style="margin-top:4px"><span>' + prevLabel + ": " + fmt(o.onceki) + " " + unitHtml + "</span></div>";
+  }
+
+  function lineChart(canvasId, labels, prevData, currData, prevLabel, currLabel, yFmt, tipFmt, yTitle) {
+    return new Chart(el(canvasId), {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          { label: String(prevLabel), data: prevData, borderColor: css("--prev"), backgroundColor: css("--prev"), tension: 0.25, pointRadius: 3, borderWidth: 2 },
+          { label: String(currLabel), data: currData, borderColor: css("--curr"), backgroundColor: css("--curr"), tension: 0.25, pointRadius: 3, borderWidth: 2.5 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "top", labels: { usePointStyle: true, boxWidth: 8, boxHeight: 8 } },
+          tooltip: { callbacks: { label: function (c) { return c.dataset.label + ": " + tipFmt(c.parsed.y); } } }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: { title: { display: true, text: yTitle }, ticks: { callback: yFmt }, grid: { color: css("--line") } }
+        }
+      }
+    });
+  }
+
+  function render(d) {
+    var ty = d.yil, ly = d.onceki_yil;
+
+    el("period").textContent =
+      dayMonth(d.baslangic) + " – " + dayMonth(d.bitis) + " " + ty + " · " + ly + " yılının aynı günleriyle karşılaştırma";
+    var up = new Date(d.olusturma);
+    el("updated").textContent = "Son güncelleme: " +
+      up.toLocaleString("tr-TR", { timeZone: "Europe/Istanbul", dateStyle: "medium", timeStyle: "short" });
+    el("excel").innerHTML = '<a href="aydem_gunluk_karsilastirma.xlsx" style="color:var(--curr)">Excel olarak indir</a>';
+
+    if (!d.kur_onaylandi) {
+      banner("warn", "<b>Dikkat:</b> USD/TRY kurları henüz onaylanmadı, şu an <b>örnek değerler</b> kullanılıyor. " +
+        "YEKDEM'deki santrallerin cirosu bu yüzden kesin değildir. <code>config.json</code> dosyasında kurları düzeltip " +
+        "<code>kur_onaylandi</code> değerini <code>true</code> yapın.");
+    }
+    if (d.uyari_sayisi > 0) {
+      banner("warn", "<b>Eksik veri:</b> " + d.uyari_sayisi + " veri parçası EPİAŞ'tan alınamadı, bazı değerler olduğundan düşük " +
+        "görünebilir. Bir sonraki güncellemede otomatik denenecek.");
+    }
+
+    kpi("kpi-uretim", "Toplam üretim · " + dayMonth(d.baslangic) + " – " + dayMonth(d.bitis), "MWh", ly, ty, d.ozet.uretim, function (v) { return nf(v, 0); });
+    kpi("kpi-ciro", "Toplam ciro · " + dayMonth(d.baslangic) + " – " + dayMonth(d.bitis), "milyon TL", ly, ty, d.ozet.ciro, function (v) { return mln(v, 1); });
+
+    Chart.defaults.color = css("--muted");
+    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+
+    var g = d.gunluk, labels = g.map(function (r) { return r.etiket; });
+    el("sub-uretim").textContent = "Tüm santrallerin toplamı, MWh.";
+
+    lineChart("c-uretim", labels,
+      g.map(function (r) { return r.uretim_onceki; }), g.map(function (r) { return r.uretim_simdiki; }), ly, ty,
+      function (v) { return nf(v, 0); }, function (v) { return nf(v, 0) + " MWh"; }, "MWh");
+
+    lineChart("c-ciro", labels,
+      g.map(function (r) { return r.ciro_onceki; }), g.map(function (r) { return r.ciro_simdiki; }), ly, ty,
+      function (v) { return nf(v / 1e6, 1); }, function (v) { return nf(v / 1e6, 2) + " milyon TL"; }, "milyon TL");
+
+    el("t-degisim").textContent = "Günlük değişim: " + ty + ", " + ly + "'e göre %";
+    new Chart(el("c-degisim"), {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [
+          { label: "Üretim değişimi", data: g.map(function (r) { return r.uretim_degisim === null ? null : r.uretim_degisim * 100; }), backgroundColor: css("--prod") },
+          { label: "Ciro değişimi", data: g.map(function (r) { return r.ciro_degisim === null ? null : r.ciro_degisim * 100; }), backgroundColor: css("--rev") }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "top", labels: { usePointStyle: true, boxWidth: 8, boxHeight: 8 } },
+          tooltip: { callbacks: { label: function (c) { var v = c.parsed.y; return c.dataset.label + ": " + (v >= 0 ? "+" : "−") + nf(Math.abs(v), 1) + "%"; } } }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: { beginAtZero: true, ticks: { callback: function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v) + "%"; } }, grid: { color: css("--line") } }
+        }
+      }
+    });
+
+    // Ortalama tablosu
+    var ref = d.ortalamalar[d.ortalamalar.length - 1];
+    el("sub-ort").textContent = ty + " Ekim ortalamasının, aşağıdaki önceki dönemlerin ortalamalarına oranı.";
+    var h = "<thead><tr><th>Dönem</th><th>Gün</th><th>Ort. günlük<br>üretim (MWh)</th><th>Ort. günlük<br>ciro (milyon TL)</th>" +
+      "<th>" + ty + " Ekim ÷ dönem<br>ÜRETİM</th><th>" + ty + " Ekim ÷ dönem<br>CİRO</th></tr></thead><tbody>";
+    d.ortalamalar.forEach(function (r) {
+      var rowCls = r.referans ? ' class="hl"' : "";
+      function ratioCell(x) {
+        if (x === null || x === undefined) return '<td class="na">—</td>';
+        return '<td class="' + cls(x) + '">' + pctOf(x) + '<span class="s">(' + chg(x - 1) + ")</span></td>";
+      }
+      h += "<tr" + rowCls + "><td>" + esc(r.donem) + "</td><td>" + r.gun + "</td><td>" + nf(r.ort_uretim_mwh, 0) +
+        "</td><td>" + mln(r.ort_ciro_tl, 2) + "</td>" + ratioCell(r.oran_uretim) + ratioCell(r.oran_ciro) + "</tr>";
+    });
+    el("t-ort").innerHTML = h + "</tbody>";
+
+    // Santral tablosu
+    el("sub-santral").textContent = dayMonth(d.baslangic) + " – " + dayMonth(d.bitis) + " toplamları, ciroya göre sıralı.";
+    var s = "<thead><tr><th>Santral</th><th>Yöntem</th><th>Üretim " + ly + "<br>(MWh)</th><th>Üretim " + ty + "<br>(MWh)</th><th>Değişim</th>" +
+      "<th>Ciro " + ly + "<br>(milyon TL)</th><th>Ciro " + ty + "<br>(milyon TL)</th><th>Değişim</th></tr></thead><tbody>";
+    var tot = { up: 0, un: 0, cp: 0, cn: 0 };
+    d.santraller.forEach(function (r) {
+      tot.up += r.uretim_onceki || 0; tot.un += r.uretim_simdiki || 0; tot.cp += r.ciro_onceki || 0; tot.cn += r.ciro_simdiki || 0;
+      function chgCell(c) {
+        if (c === null || c === undefined) return '<td class="na">—</td>';
+        return '<td class="' + (c >= 0 ? "pos" : "neg") + '">' + chg(c) + "</td>";
+      }
+      s += "<tr><td>" + esc(r.santral) + '</td><td class="c"><span class="badge">' + esc(r.mekanizma) + "</span></td><td>" + nf(r.uretim_onceki, 0) +
+        "</td><td>" + nf(r.uretim_simdiki, 0) + "</td>" + chgCell(r.uretim_degisim) + "<td>" + mln(r.ciro_onceki, 2) +
+        "</td><td>" + mln(r.ciro_simdiki, 2) + "</td>" + chgCell(r.ciro_degisim) + "</tr>";
+    });
+    function tc(a, b) { return b ? a / b - 1 : null; }
+    s += '<tr class="total"><td>Toplam</td><td></td><td>' + nf(tot.up, 0) + "</td><td>" + nf(tot.un, 0) + "</td>" +
+      '<td class="' + (tc(tot.un, tot.up) >= 0 ? "pos" : "neg") + '">' + chg(tc(tot.un, tot.up)) + "</td><td>" + mln(tot.cp, 2) + "</td><td>" + mln(tot.cn, 2) + "</td>" +
+      '<td class="' + (tc(tot.cn, tot.cp) >= 0 ? "pos" : "neg") + '">' + chg(tc(tot.cn, tot.cp)) + "</td></tr>";
+    el("t-santral").innerHTML = s + "</tbody>";
+
+    // Alt bilgi
+    var v = d.varsayimlar, yek = Object.keys(v.yekdem).map(function (k) { return esc(k) + ": " + nf(v.yekdem[k], 2) + " USc/kWh"; }).join(" · ");
+    var kur = Object.keys(v.kur_yillik).sort().map(function (k) { return k + ": " + nf(v.kur_yillik[k], 2); }).join(" · ");
+    var kurAy = Object.keys(v.kur_aylik || {}).sort().map(function (k) { return k + ": " + nf(v.kur_aylik[k], 2); }).join(" · ");
+    el("foot").innerHTML =
+      "<b>Nasıl hesaplanıyor?</b><ul>" +
+      "<li>Üretim: EPİAŞ Şeffaflık Platformu gerçek zamanlı üretim verisi (saatlik), günlük toplanır. Resmi uzlaştırma verisinden küçük farklar olabilir.</li>" +
+      "<li>YEKDEM'li santraller: üretim × YEKDEM fiyatı × USD/TRY kuru. Fiyatlar: " + yek + ".</li>" +
+      "<li>Diğer santraller: her saatin üretimi × o saatin PTF'si, günlük toplanır.</li>" +
+      "<li>USD/TRY (yıllık): " + kur + (kurAy ? " · aylık: " + kurAy : "") + ".</li>" +
+      "<li>Bu rakamlar tahmindir, fatura veya resmi uzlaştırma değeri değildir.</li></ul>";
+
+    el("app").hidden = false;
+  }
+
+  fetch("data.json?v=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(render)
+    .catch(function (e) {
+      el("period").textContent = "";
+      banner("error", "<b>Veri yüklenemedi.</b> Henüz ilk güncelleme tamamlanmamış olabilir (GitHub'da Actions sekmesine bakın). Ayrıntı: " + esc(e.message));
+    });
+})();
+</script>
+</body>
+</html>
