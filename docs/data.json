@@ -1,9 +1,9 @@
 {
- "olusturma": "2026-11-14T14:39:59+03:00",
+ "olusturma": "2026-11-15T15:09:03+03:00",
  "yil": 2026,
  "onceki_yil": 2025,
  "baslangic": "2026-10-01",
- "bitis": "2026-11-13",
+ "bitis": "2026-11-14",
  "veri_baslangici": "2025-10-01",
  "kur_onaylandi": true,
  "gunluk": [
@@ -441,33 +441,43 @@
    "gun": 44,
    "etiket": "13.11",
    "uretim_onceki": 3308.3399999999997,
-   "uretim_simdiki": 8322.03,
-   "uretim_degisim": 1.5154699940151257,
+   "uretim_simdiki": 10661.16,
+   "uretim_degisim": 2.222510382850614,
    "ciro_onceki": 8633335.5584,
-   "ciro_simdiki": 20507422.0943,
-   "ciro_degisim": 1.3753764643547117
+   "ciro_simdiki": 27414927.3312,
+   "ciro_degisim": 2.175473389833206
+  },
+  {
+   "gun": 45,
+   "etiket": "14.11",
+   "uretim_onceki": 5602.2300000000005,
+   "uretim_simdiki": 9415.93,
+   "uretim_degisim": 0.6807467740524755,
+   "ciro_onceki": 15471496.9641,
+   "ciro_simdiki": 23321696.165099997,
+   "ciro_degisim": 0.5073975206934125
   }
  ],
  "ozet": {
   "uretim": {
-   "onceki": 132752.6,
-   "simdiki": 270011.51,
-   "oran": 2.033945173201881
+   "onceki": 138354.83000000002,
+   "simdiki": 281766.57,
+   "oran": 2.036550296075677
   },
   "ciro": {
-   "onceki": 339020848.0677,
-   "simdiki": 766512823.0459,
-   "oran": 2.260960726795282
+   "onceki": 354492345.03180003,
+   "simdiki": 796742024.4478999,
+   "oran": 2.247557769904531
   }
  },
  "ortalamalar": [
   {
-   "donem": "01.10.2025 → 13.11.2026",
-   "gun": 409,
-   "ort_uretim_mwh": 6363.106234718827,
-   "ort_ciro_tl": 14935620.446647922,
-   "oran_uretim": 0.9644071623053599,
-   "oran_ciro": 1.166389172819783,
+   "donem": "01.10.2025 → 14.11.2026",
+   "gun": 410,
+   "ort_uretim_mwh": 6376.257341463414,
+   "ort_ciro_tl": 14972921.863612194,
+   "oran_uretim": 0.9819991568747227,
+   "oran_ciro": 1.1824932022181172,
    "referans": false
   },
   {
@@ -475,8 +485,8 @@
    "gun": 31,
    "ort_uretim_mwh": 3248.8190322580645,
    "ort_ciro_tl": 8200991.122961288,
-   "oran_uretim": 1.8888787483516796,
-   "oran_ciro": 2.1242244647163413,
+   "oran_uretim": 1.9273093610823084,
+   "oran_ciro": 2.158931531030755,
    "referans": false
   },
   {
@@ -484,8 +494,8 @@
    "gun": 30,
    "ort_uretim_mwh": 3558.47,
    "ort_ciro_tl": 8982113.175783334,
-   "oran_uretim": 1.7245122840076572,
-   "oran_ciro": 1.9394930388189677,
+   "oran_uretim": 1.7595987414066534,
+   "oran_ciro": 1.9711818337804843,
    "referans": false
   },
   {
@@ -493,15 +503,15 @@
    "gun": 31,
    "ort_uretim_mwh": 3669.1454838709683,
    "ort_ciro_tl": 9826078.84772258,
-   "oran_uretim": 1.6724943871123243,
-   "oran_ciro": 1.7729092396153086,
+   "oran_uretim": 1.7065225025439545,
+   "oran_ciro": 1.8018762718526393,
    "referans": false
   },
   {
-   "donem": "Ekim 2026 (1 Ekim → 13.11)",
-   "gun": 44,
-   "ort_uretim_mwh": 6136.625227272728,
-   "ort_ciro_tl": 17420745.97831591,
+   "donem": "Ekim 2026 (1 Ekim → 14.11)",
+   "gun": 45,
+   "ort_uretim_mwh": 6261.479333333334,
+   "ort_ciro_tl": 17705378.321064442,
    "oran_uretim": null,
    "oran_ciro": null,
    "referans": true
@@ -511,182 +521,182 @@
   {
    "santral": "TOKAT AKINCI HES-40W0000000123233",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 23995.82,
-   "uretim_simdiki": 71893.64,
-   "uretim_degisim": 1.996090152368204,
-   "ciro_onceki": 63946460.717999995,
-   "ciro_simdiki": 207441908.856,
-   "ciro_degisim": 2.2439935928714836
+   "uretim_onceki": 25286.22,
+   "uretim_simdiki": 73710.94,
+   "uretim_degisim": 1.915063619631562,
+   "ciro_onceki": 67385247.678,
+   "ciro_simdiki": 212685546.276,
+   "ciro_degisim": 2.156262737095166
   },
   {
    "santral": "UŞAK RES-40W000000007459X",
    "mekanizma": "PTF",
-   "uretim_onceki": 38895.22,
-   "uretim_simdiki": 38684.55,
-   "uretim_degisim": -0.0054163467901711115,
-   "ciro_onceki": 99627467.4016,
-   "ciro_simdiki": 100753375.2396,
-   "ciro_degisim": 0.011301178955613222
+   "uretim_onceki": 39814.22,
+   "uretim_simdiki": 41064.76,
+   "uretim_degisim": 0.03140938086944822,
+   "ciro_onceki": 102448368.7116,
+   "ciro_simdiki": 106649394.5274,
+   "ciro_degisim": 0.04100627339051344
   },
   {
    "santral": "ARDAHAN AKINCI HES-40W0000000084452",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 9760.43,
-   "uretim_simdiki": 23820.12,
-   "uretim_degisim": 1.4404785444903552,
-   "ciro_onceki": 26010569.906999998,
-   "ciro_simdiki": 68730574.248,
-   "ciro_degisim": 1.6424093933252548
+   "uretim_onceki": 9908.11,
+   "uretim_simdiki": 24749.91,
+   "uretim_degisim": 1.49794461304931,
+   "ciro_onceki": 26404122.338999998,
+   "ciro_simdiki": 71413390.314,
+   "ciro_degisim": 1.7046303375332958
   },
   {
    "santral": "TOROS HES-40W000000006541G",
    "mekanizma": "PTF",
-   "uretim_onceki": 1281.79,
-   "uretim_simdiki": 19622.69,
-   "uretim_degisim": 14.308818137136347,
-   "ciro_onceki": 3571133.0122,
-   "ciro_simdiki": 61169078.182399996,
-   "ciro_degisim": 16.12875940868882
+   "uretim_onceki": 1317.63,
+   "uretim_simdiki": 20092.079999999998,
+   "uretim_degisim": 14.248650986999383,
+   "ciro_onceki": 3675036.183,
+   "ciro_simdiki": 62393300.5507,
+   "ciro_degisim": 15.977601700717731
   },
   {
    "santral": "DÜZCE AKSU HES-40W000000007460B",
    "mekanizma": "PTF",
    "uretim_onceki": 0.0,
-   "uretim_simdiki": 16612.58,
+   "uretim_simdiki": 17619.34,
    "uretim_degisim": null,
    "ciro_onceki": 0.0,
-   "ciro_simdiki": 51155991.859,
+   "ciro_simdiki": 53687119.7898,
    "ciro_degisim": null
-  },
-  {
-   "santral": "MENTAŞ HES-40W000000000410O",
-   "mekanizma": "PTF",
-   "uretim_onceki": 4664.0,
-   "uretim_simdiki": 12645.91,
-   "uretim_degisim": 1.7113872212692969,
-   "ciro_onceki": 15146104.17,
-   "ciro_simdiki": 41848342.700899996,
-   "ciro_degisim": 1.7629773459362124
   },
   {
    "santral": "SÖKE RES-40W000000009583M",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 16564.47,
-   "uretim_simdiki": 18420.53,
-   "uretim_degisim": 0.11205067231248544,
-   "ciro_onceki": 34683515.5095,
-   "ciro_simdiki": 41761183.563,
-   "ciro_degisim": 0.2040643213217932
+   "uretim_onceki": 17756.19,
+   "uretim_simdiki": 19994.61,
+   "uretim_degisim": 0.12606420634156335,
+   "ciro_onceki": 37178798.4315,
+   "ciro_simdiki": 45329780.331,
+   "ciro_degisim": 0.2192373676227799
+  },
+  {
+   "santral": "MENTAŞ HES-40W000000000410O",
+   "mekanizma": "PTF",
+   "uretim_onceki": 4769.0,
+   "uretim_simdiki": 12747.17,
+   "uretim_degisim": 1.6729230446634515,
+   "ciro_onceki": 15495049.09,
+   "ciro_simdiki": 42234719.6649,
+   "ciro_degisim": 1.7256912462547094
   },
   {
    "santral": "YALOVA RES-40W000000009582O",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 11499.13,
-   "uretim_simdiki": 15991.710000000001,
-   "uretim_degisim": 0.39068868688326863,
-   "ciro_onceki": 24077453.3505,
-   "ciro_simdiki": 36254805.741,
-   "ciro_degisim": 0.5057574907624987
+   "uretim_onceki": 11567.539999999999,
+   "uretim_simdiki": 17055.64,
+   "uretim_degisim": 0.47443968207587783,
+   "ciro_onceki": 24220693.629,
+   "ciro_simdiki": 38666841.444,
+   "ciro_degisim": 0.5964382373303829
   },
   {
    "santral": "DERELİ HES-40W000000007201Z",
    "mekanizma": "PTF",
-   "uretim_onceki": 5839.49,
-   "uretim_simdiki": 10222.8,
-   "uretim_degisim": 0.7506323326180881,
-   "ciro_onceki": 16616870.2085,
-   "ciro_simdiki": 31223890.1614,
-   "ciro_degisim": 0.879047604610169
+   "uretim_onceki": 6533.49,
+   "uretim_simdiki": 10701.32,
+   "uretim_degisim": 0.637917866255248,
+   "ciro_onceki": 18782768.0185,
+   "ciro_simdiki": 32502634.7078,
+   "ciro_degisim": 0.7304496693877431
   },
   {
    "santral": "DALAMAN HES-40W000000000271C",
    "mekanizma": "PTF",
-   "uretim_onceki": 1567.32,
-   "uretim_simdiki": 9685.87,
-   "uretim_degisim": 5.179893065870404,
-   "ciro_onceki": 4357368.2758,
-   "ciro_simdiki": 29951359.4084,
-   "ciro_degisim": 5.873726871961727
+   "uretim_onceki": 1588.56,
+   "uretim_simdiki": 10312.29,
+   "uretim_degisim": 5.491596162562321,
+   "ciro_onceki": 4423231.2272,
+   "ciro_simdiki": 31554311.7225,
+   "ciro_degisim": 6.133769432730867
   },
   {
    "santral": "ÇIRAKDAMI HES-40W000000005634E",
    "mekanizma": "PTF",
-   "uretim_onceki": 5743.0,
-   "uretim_simdiki": 9651.02,
-   "uretim_degisim": 0.6804840675605086,
-   "ciro_onceki": 16224449.32,
-   "ciro_simdiki": 29037316.9442,
-   "ciro_degisim": 0.7897258866225729
+   "uretim_onceki": 6494.0,
+   "uretim_simdiki": 10076.9,
+   "uretim_degisim": 0.5517246689251616,
+   "ciro_onceki": 18587500.43,
+   "ciro_simdiki": 30158006.2679,
+   "ciro_degisim": 0.6224885310143877
   },
   {
    "santral": "ERZURUM AKSU HES-40W0000000056548",
    "mekanizma": "PTF",
-   "uretim_onceki": 4056.24,
-   "uretim_simdiki": 9326.22,
-   "uretim_degisim": 1.2992278563398614,
-   "ciro_onceki": 11183422.1661,
-   "ciro_simdiki": 27748058.0909,
-   "ciro_degisim": 1.481177736007492
+   "uretim_onceki": 4105.72,
+   "uretim_simdiki": 9498.789999999999,
+   "uretim_degisim": 1.313550363882583,
+   "ciro_onceki": 11335006.0593,
+   "ciro_simdiki": 28214474.2767,
+   "ciro_degisim": 1.4891450546293226
   },
   {
    "santral": "OVA RES-40W000000010403F",
    "mekanizma": "PTF",
-   "uretim_onceki": 4419.85,
-   "uretim_simdiki": 4814.9,
-   "uretim_degisim": 0.08938086134144796,
-   "ciro_onceki": 11275893.5206,
-   "ciro_simdiki": 13621158.2458,
-   "ciro_degisim": 0.20798925787259526
+   "uretim_onceki": 4564.5599999999995,
+   "uretim_simdiki": 5157.32,
+   "uretim_degisim": 0.12986136670347204,
+   "ciro_onceki": 11717921.8356,
+   "ciro_simdiki": 14454350.8132,
+   "ciro_degisim": 0.23352510931473414
   },
   {
    "santral": "GÖKYAR HES-40W0000000099828",
    "mekanizma": "PTF",
-   "uretim_onceki": 1600.47,
-   "uretim_simdiki": 3225.71,
-   "uretim_degisim": 1.0154767037182828,
-   "ciro_onceki": 4485362.1705,
-   "ciro_simdiki": 9818983.1978,
-   "ciro_degisim": 1.1891171380493986
+   "uretim_onceki": 1632.72,
+   "uretim_simdiki": 3329.39,
+   "uretim_degisim": 1.039167769121466,
+   "ciro_onceki": 4582667.9395,
+   "ciro_simdiki": 10083588.8243,
+   "ciro_degisim": 1.2003751869920967
   },
   {
    "santral": "AKINCI HES KAYSERİ-40W000000012823K",
    "mekanizma": "YEKDEM",
-   "uretim_onceki": 1947.32,
-   "uretim_simdiki": 2555.25,
-   "uretim_degisim": 0.3121880327835178,
-   "ciro_onceki": 5189413.068,
-   "ciro_simdiki": 7372918.35,
-   "ciro_degisim": 0.42076151067340706
-  },
-  {
-   "santral": "AKSU HES MALATYA-40W0000000072780",
-   "mekanizma": "PTF",
-   "uretim_onceki": 188.58,
-   "uretim_simdiki": 1266.61,
-   "uretim_degisim": 5.71656591367059,
-   "ciro_onceki": 522917.0341,
-   "ciro_simdiki": 3867153.842,
-   "ciro_degisim": 6.3953487643710325
+   "uretim_onceki": 2029.62,
+   "uretim_simdiki": 2651.8399999999997,
+   "uretim_degisim": 0.306569702702969,
+   "ciro_onceki": 5408734.3379999995,
+   "ciro_simdiki": 7651619.135999999,
+   "ciro_degisim": 0.4146783069455313
   },
   {
    "santral": "BERRAKSU HES-40W000000017983A",
    "mekanizma": "PTF",
-   "uretim_onceki": 474.47,
-   "uretim_simdiki": 1248.6,
-   "uretim_degisim": 1.6315678546588823,
-   "ciro_onceki": 1365040.7653,
-   "ciro_simdiki": 3699046.5834999997,
-   "ciro_degisim": 1.7098433083696563
+   "uretim_onceki": 513.44,
+   "uretim_simdiki": 1351.19,
+   "uretim_degisim": 1.6316414770956684,
+   "ciro_onceki": 1493106.6969,
+   "ciro_simdiki": 3980148.4978,
+   "ciro_degisim": 1.665682570484491
+  },
+  {
+   "santral": "AKSU HES MALATYA-40W0000000072780",
+   "mekanizma": "PTF",
+   "uretim_onceki": 192.81,
+   "uretim_simdiki": 1296.28,
+   "uretim_degisim": 5.723095275141331,
+   "ciro_onceki": 535616.9147,
+   "ciro_simdiki": 3942958.6219,
+   "ciro_degisim": 6.361527453083625
   },
   {
    "santral": "GİRESUN AKSU HES",
    "mekanizma": "PTF",
-   "uretim_onceki": 255.0,
-   "uretim_simdiki": 321.0,
-   "uretim_degisim": 0.2588235294117647,
-   "ciro_onceki": 737407.47,
-   "ciro_simdiki": 1051737.85,
-   "ciro_degisim": 0.4262641657264472
+   "uretim_onceki": 281.0,
+   "uretim_simdiki": 355.0,
+   "uretim_degisim": 0.2633451957295374,
+   "ciro_onceki": 818475.51,
+   "ciro_simdiki": 1133898.7,
+   "ciro_degisim": 0.38537889789762914
   },
   {
    "santral": "KEMER HES-40W000000011207A",
